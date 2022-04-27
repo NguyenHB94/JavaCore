@@ -13,16 +13,18 @@ public class RepeatString_ {
 
     public static String repeatString_(String a) {
         String result = "";
-        String aRenew;
+//        String aRenew;
         for(int i = 0; i < 10; i++) {
-            if (i < (10 -1)) {
-                aRenew = a + "-";
-            }else {
-                aRenew = a;
-            }
-            result = result.concat(aRenew);
+//            if (i < (10 -1)) {
+//                aRenew = a + "-";
+//            }else {
+//                aRenew = a;
+//            }
+//            result = result.concat(aRenew);
+
+            result += a + "-";
         }
-        return result;
+        return result.substring(0, result.length() - 1);
     }
 
 }

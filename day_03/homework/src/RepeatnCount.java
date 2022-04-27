@@ -14,16 +14,18 @@ public class RepeatnCount {
     }
     public static String repeatString_(String a, int n) {
         String result = "";
-        String aRenew;
+//        String aRenew;
         for(int i= 0; i < n; i++) {
-            if (i < (n -1)) {
-                aRenew = a + "-";
-            }else {
-                aRenew = a;
-            }
-            result = result.concat(aRenew);
+//            if (i < (n -1)) {
+//                aRenew = a + "-";
+//            }else {
+//                aRenew = a;
+//            }
+//            result = result.concat(aRenew);
+            result += a + "-";
+
         }
-        return result;
+        return result.substring(0, result.length() - 1);
     }
 
 

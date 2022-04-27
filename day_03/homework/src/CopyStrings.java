@@ -10,16 +10,18 @@ public class CopyStrings {
         System.out.println("Chuỗi sau khi copy là:\n" + result_repeat);
 
     }
-
+    // có thể sử dụng phương thức có sẵn name.repeat
     public static String repeatStrings(String a) {
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < 10; i++){
-            result = result.concat(a);
+//            result = result.concat(a);
+            // result += a;
+            result.append(a);
         }
 
-        return result;
+        return result.toString();
 
     }
 
