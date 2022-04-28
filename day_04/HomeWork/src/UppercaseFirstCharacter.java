@@ -12,7 +12,7 @@ public class UppercaseFirstCharacter {
         String[] strArr = str.split(" ");
         String strConvert = "";
         for (String word : strArr) {
-            strConvert += word.substring(0,1).toUpperCase() + word.substring(1);
+            strConvert += word.substring(0,1).toUpperCase() + word.substring(1).toLowerCase();
             strConvert += " ";
         }
         return strConvert.substring(0, strConvert.length() - 1);
