@@ -45,18 +45,18 @@ public class BookService {
         }
     }
 
-    public void findByPublishingOfYear() {
-        int currentYear = LocalDate.now().getYear();
+    public void findByPublishingOfYear(int years) {
+//        int currentYear = LocalDate.now().getYear();
         int count = 0;
         for (Book book : getBook()) {
-            if (book.year == currentYear) {
+            if (book.year == years) {
                 count ++;
                 System.out.println(book);
             }
         }
 
         if (count == 0){
-            System.out.println("Không có sách xuất bản trong năm: " + currentYear);
+            System.out.println("Không có sách xuất bản trong năm: " + years);
         }
     }
 }
