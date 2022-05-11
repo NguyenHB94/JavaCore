@@ -86,7 +86,7 @@ public class FilmService {
         }
 
         if (count == 0) {
-            System.out.println("Không có phim tên là: " + genreFilm);
+            System.out.println("Không có phim thuộc thể loại: " + genreFilm);
         }
     }
 }
