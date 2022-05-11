@@ -33,6 +33,7 @@ public class Serial extends Film {
         this.avgRunningTime = avgRunningTime;
     }
 
+//    chưa biết tại sao in ra mảng tab giữa các thuộc tính không đều >> xấu
     @Override
     public String toString(){
         return "#Id: " + super.getId() + "\t#Title: " + super.getTitle() + "\t#Category: " + super.getGenre() + "\t#Author: " + super.getDirector()+ "\t#ReleaseDate: " + super.getReleaseDate() + "\t#Episode: " + this.episode + "\t#AvgTime: " + this.avgRunningTime;
