@@ -36,6 +36,7 @@ public class ProductController {
                     ArrayList<Product> products = productService.findByName(nameProduct);
                     if (products.isEmpty()) {
                         System.out.println("Sản phẩm cần tìm không có trong danh sách.");
+                        System.out.println();
                     } else {
                         System.out.println("Thông tin sản phẩm bạn tìm kiếm: ");
                         productService.prinInfo(products);
