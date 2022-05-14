@@ -9,14 +9,15 @@ import java.util.Random;
 
 public class PlayerService {
 
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players;
 
-    public PlayerService() {init();
+    public PlayerService() {
+        init();
     }
 
     //Khỏi tạo danh sách cầu thủ
     private void init() {
-
+        players = new ArrayList<>();
         // Các cầu thủ thuộc vị trí thủ môn
         players.add(new Player(1, "Bùi Tấn Trường", Position.GK));
         players.add(new Player(2, "Đặng Văn Lâm", Position.GK));
