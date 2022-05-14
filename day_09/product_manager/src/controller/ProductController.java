@@ -54,8 +54,8 @@ public class ProductController {
                         System.out.println();
                     } else {
                         int subOptionId = 0;
-                        boolean isContiuesId = true;
-                        while (isContiuesId) {
+//                        boolean isContiuesId = true;
+//                        while (isContiuesId) {
                             subMenuId();
                             System.out.println("Nhập lựa chọn: ");
                             subOptionId = Integer.parseInt(sc.nextLine());
@@ -78,21 +78,21 @@ public class ProductController {
                                     break;
                                 }
 
-                                case 3: {
-                                    isContiuesId = false;
-                                    break;
-                                }
-
-                                default: {
-                                    System.out.println("Lựa chọn không hợp lệ");
-                                    System.out.println();
-                                    break;
-                                }
+//                                case 3: {
+//                                    isContiuesId = false;
+//                                    break;
+//                                }
+//
+//                                default: {
+//                                    System.out.println("Lựa chọn không hợp lệ");
+//                                    System.out.println();
+//                                    break;
+//                                }
                             }
                         }
 
-                    }
-                    break;
+//                    }
+//                    break;
 
                 }
 
