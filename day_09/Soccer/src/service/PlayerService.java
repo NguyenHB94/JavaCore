@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class PlayerService {
 
-    static ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
 
     public PlayerService() {init();
     }
