@@ -54,53 +54,36 @@ public class ProductController {
                         System.out.println();
                     } else {
                         int subOptionId = 0;
-//                        boolean isContiuesId = true;
-//                        while (isContiuesId) {
-                            subMenuId();
-                            System.out.println("Nhập lựa chọn: ");
-                            subOptionId = Integer.parseInt(sc.nextLine());
+                        subMenuId();
+                        System.out.println("Nhập lựa chọn: ");
+                        subOptionId = Integer.parseInt(sc.nextLine());
 
-                            switch (subOptionId) {
-                                case 1: {
-                                    productService.deleteProduct(product);
-                                    System.out.println("Bạn vừa xóa thành công sản phẩm có Id =" + id);
-                                    System.out.println();
-                                    break;
-                                }
+                        switch (subOptionId) {
+                            case 1: {
+                                productService.deleteProduct(product);
+                                System.out.println("Bạn vừa xóa thành công sản phẩm có Id =" + id);
+                                System.out.println();
+                                break;
+                            }
 
-                                case 2: {
-                                    System.out.println("Nhập vào số lượng mới của sản phẩm: ");
-                                    int newQuantity = Integer.parseInt(sc.nextLine());
-                                    Product newProduct = productService.updateQuantity(product, newQuantity);
-                                    System.out.println("Thông tin sản phẩm vừa cập nhật số lượng: ");
-                                    System.out.println(newProduct);
-                                    System.out.println();
-                                    break;
-                                }
-
-//                                case 3: {
-//                                    isContiuesId = false;
-//                                    break;
-//                                }
-//
-//                                default: {
-//                                    System.out.println("Lựa chọn không hợp lệ");
-//                                    System.out.println();
-//                                    break;
-//                                }
+                            case 2: {
+                                System.out.println("Nhập vào số lượng mới của sản phẩm: ");
+                                int newQuantity = Integer.parseInt(sc.nextLine());
+                                Product newProduct = productService.updateQuantity(product, newQuantity);
+                                System.out.println("Thông tin sản phẩm vừa cập nhật số lượng: ");
+                                System.out.println(newProduct);
+                                System.out.println();
+                                break;
                             }
                         }
-
-//                    }
-//                    break;
-
+                    }
                 }
 
-                case 4 : {
+                case 4: {
                     ArrayList<Product> listSmallThan5 = productService.findByNumber();
                     if (listSmallThan5.isEmpty()) {
                         System.out.println("Không có sản phẩm có số lượng dưới 5");
-                    }else {
+                    } else {
                         System.out.println("Thông tin sản phẩm có số lượng dưới 5 bao gồm: ");
                         productService.printInfo(listSmallThan5);
                         System.out.println();
@@ -108,7 +91,7 @@ public class ProductController {
                     break;
                 }
 
-                case 5 : {
+                case 5: {
                     boolean isContinuePrice = true;
                     int optionPrice = 0;
 
@@ -117,11 +100,11 @@ public class ProductController {
                         System.out.println("Nhập lựa chọn: ");
                         optionPrice = Integer.parseInt(sc.nextLine());
                         switch (optionPrice) {
-                            case 1 : {
+                            case 1: {
                                 ArrayList<Product> listPrice1 = productService.findByPrice(0, 50_000);
                                 if (listPrice1.isEmpty()) {
                                     System.out.println("Không có sản phẩm nào có mức giá dưới 50000");
-                                }else {
+                                } else {
                                     System.out.println("Sản phẩm có mức giá dưới 50000 bao gồm: ");
                                     productService.printInfo(listPrice1);
                                     System.out.println();
@@ -129,11 +112,11 @@ public class ProductController {
                                 break;
                             }
 
-                            case 2 : {
+                            case 2: {
                                 ArrayList<Product> listPrice2 = productService.findByPrice(50_000, 100_000);
                                 if (listPrice2.isEmpty()) {
                                     System.out.println("Không có sản phẩm nào có mức giá từ 50000 đến dưới 100000");
-                                }else {
+                                } else {
                                     System.out.println("Sản phẩm có mức giá từ 50000 đến dưới 100000 bao gồm: ");
                                     productService.printInfo(listPrice2);
                                     System.out.println();
@@ -141,11 +124,11 @@ public class ProductController {
                                 break;
                             }
 
-                            case 3 : {
-                                ArrayList<Product> listPrice3 = productService.findByPrice(100_000, (int)Math.pow(2,31) -1);
+                            case 3: {
+                                ArrayList<Product> listPrice3 = productService.findByPrice(100_000, (int) Math.pow(2, 31) - 1);
                                 if (listPrice3.isEmpty()) {
                                     System.out.println("Không có sản phẩm nào có mức giá từ 100000 trở lên");
-                                }else {
+                                } else {
                                     System.out.println("Sản phẩm có mức giá từ 100000 trở lên bao gồm: ");
                                     productService.printInfo(listPrice3);
                                     System.out.println();
@@ -153,7 +136,7 @@ public class ProductController {
                                 break;
                             }
 
-                            case 4 : {
+                            case 4: {
                                 isContinuePrice = false;
                                 break;
                             }
@@ -167,7 +150,7 @@ public class ProductController {
                     break;
                 }
 
-                case 6 : {
+                case 6: {
                     isContinues = false;
                     break;
                 }
