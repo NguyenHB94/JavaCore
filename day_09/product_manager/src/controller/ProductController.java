@@ -50,44 +50,50 @@ public class ProductController {
                     int id = Integer.parseInt(sc.nextLine());
                     Product product = productService.findById(id);
                     if (product == null) {
-                        System.out.println("Id nhập vào không hợp lệ");
+                        System.out.println("Id sản phẩm vừa nhập vào không có trong danh sách");
                         System.out.println();
                     } else {
                         System.out.println("Thông tin sản phẩm có Id = " + id + " là: ");
                         System.out.println(product);
                         int subOptionId = 0;
-                        subMenuId();
-                        System.out.println("Nhập lựa chọn: ");
-                        subOptionId = Integer.parseInt(sc.nextLine());
+                        boolean isContinuesId = true;
 
-                        switch (subOptionId) {
-                            case 1: {
-                                productService.deleteProduct(product);
-                                System.out.println("Bạn vừa xóa thành công sản phẩm có Id =" + id);
-                                System.out.println();
-                                break;
-                            }
+                        while (isContinuesId){
+                            subMenuId();
+                            System.out.println("Nhập lựa chọn: ");
+                            subOptionId = Integer.parseInt(sc.nextLine());
+                            switch (subOptionId) {
+                                case 1: {
+                                    productService.deleteProduct(product);
+                                    System.out.println("Bạn vừa xóa thành công sản phẩm có Id =" + id);
+                                    isContinuesId = false;
+                                    break;
+                                }
 
-                            case 2: {
-                                System.out.println("Nhập vào số lượng mới của sản phẩm: ");
-                                int newQuantity = Integer.parseInt(sc.nextLine());
-                                Product newProduct = productService.updateQuantity(product, newQuantity);
-                                System.out.println("Thông tin sản phẩm vừa cập nhật số lượng: ");
-                                System.out.println(newProduct);
-                                System.out.println();
-                                break;
-                            }
+                                case 2: {
+                                    System.out.println("Nhập vào số lượng mới của sản phẩm: ");
+                                    int newQuantity = Integer.parseInt(sc.nextLine());
+                                    Product newProduct = productService.updateQuantity(product, newQuantity);
+                                    System.out.println("Thông tin sản phẩm vừa cập nhật số lượng: ");
+                                    System.out.println(newProduct);
+                                    isContinuesId = false;
+                                    break;
+                                }
 
-                            case 3: {
-                                break;
-                            }
+                                case 3: {
+                                    isContinuesId = false;
+                                    break;
+                                }
 
-                            default: {
-                                System.out.println("Lựa chọn không phù hợp");
-                                break;
+                                default: {
+                                    System.out.println("Lựa chọn không phù hợp");
+                                    break;
+                                }
                             }
                         }
+
                     }
+                    break;
                 }
 
                 case 4: {
