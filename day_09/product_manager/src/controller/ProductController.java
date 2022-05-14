@@ -53,6 +53,8 @@ public class ProductController {
                         System.out.println("Id nhập vào không hợp lệ");
                         System.out.println();
                     } else {
+                        System.out.println("Thông tin sản phẩm có Id = " + id + " là: ");
+                        System.out.println(product);
                         int subOptionId = 0;
                         subMenuId();
                         System.out.println("Nhập lựa chọn: ");
