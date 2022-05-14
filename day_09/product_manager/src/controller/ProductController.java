@@ -77,6 +77,15 @@ public class ProductController {
                                 System.out.println();
                                 break;
                             }
+
+                            case 3: {
+                                break;
+                            }
+
+                            default: {
+                                System.out.println("Lựa chọn không phù hợp");
+                                break;
+                            }
                         }
                     }
                 }
