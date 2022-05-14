@@ -3,18 +3,19 @@ package service;
 import model.Product;
 
 import java.util.ArrayList;
+import java.util.PropertyResourceBundle;
 import java.util.Scanner;
 
 public class ProductService {
-    Scanner sc = new Scanner(System.in);
     //Khỏi tạo danh sách sản phẩm
     private ArrayList<Product> products;
+    Scanner sc = new Scanner(System.in);
 
-    public ProductService() { init();
+    public ProductService() {
+        init();
     }
 
-    //Khỏi tạo data
-    private void init() {
+    public void init() {
         products = new ArrayList<>();
         products.add(new Product(1, "Hoa quả sấy", "Hoa quả sấy kho túi 250g", 50, 55_000));
         products.add(new Product(2, "Snack Poca bò lúc lắc", "Snack vị bò lúc lắc gói 75g", 120, 5_000));
@@ -26,20 +27,19 @@ public class ProductService {
         products.add(new Product(8, "Bánh Custas", "Bánh bông lan nhân kem trứng hộp 24 pack", 35, 134_000));
     }
 
-    //Return danh sách sản phẩm
-    public ArrayList<Product> getProducts() {
+    //return players
+    public ArrayList<Product> getProductsList() {
         return products;
     }
 
-    //In ra thông tin sản phẩm
-    public void prinInfo(ArrayList<Product> listProducts) {
-
-        for (Product product : listProducts) {
+    //in danh sách sản phẩm
+    public void printInfo(ArrayList<Product> productsList) {
+        for (Product product : productsList) {
             System.out.println(product);
         }
     }
 
-    //Tìm sản phẩm theo tên
+    //Tìm kiếm sản phẩm theo tên
     public ArrayList<Product> findByName(String name) {
         ArrayList<Product> findList = new ArrayList<>();
         for (Product product : products) {
@@ -50,7 +50,7 @@ public class ProductService {
         return findList;
     }
 
-    //Tìm sản phẩm theo Id
+    //Tìm kiếm sản phẩm theo Id
     public Product findById(int id) {
         for (Product product : products) {
             if (product.getId() == id) {
@@ -60,50 +60,37 @@ public class ProductService {
         return null;
     }
 
-    //Xóa sản phẩm theo Id
-//    public void deleteProductById(int id) {
-//        Iterator<Product> iterator = products.iterator();
-//        while (iterator.hasNext()) {
-//            Product product = iterator.next();
-//            if (product.getId() == id) {
-//                iterator.remove();
-//            }
-//        }
-//    }
+    //Xoá sản phẩm theo Id
     public void deleteProduct(Product product) {
         products.remove(product);
     }
 
-    //Cập nhật số lượng sản phẩm theo id
-    public Product updateQuantity(Product product) {
-        System.out.println("Nhập số lượng mới của sản phẩm: ");
-        int newQuantity = Integer.parseInt(sc.nextLine());
-        product.setQuantity(newQuantity);
+    //Cập nhật số lượng sản phẩm theo Id
+    public Product updateQuantity(Product product, int newQuantity) {
+        product.setNumber(newQuantity);
         return product;
     }
 
-    //Tìm sản phẩm có số lượng < 5
-    public ArrayList<Product> getProducSmallThan5() {
-        ArrayList<Product> listSmallThan5 = new ArrayList<>();
+    //Tìm sản phẩm có số lượng dưới 5
+    public ArrayList<Product> findByNumber() {
+        ArrayList<Product> numberSmallThan5List = new ArrayList<>();
         for (Product product : products) {
-            if (product.getQuantity() < 5) {
-                listSmallThan5.add(product);
+            if (product.getNumber() < 5) {
+                numberSmallThan5List.add(product);
             }
         }
-        return listSmallThan5;
+        return numberSmallThan5List;
     }
-
-    //Tìm sản phẩm theo mức giá
+    //Tìm sản phẩm theo khoảng giá
     public ArrayList<Product> findByPrice(int minPrice, int maxPrice) {
-        ArrayList<Product> listAboutPrice = new ArrayList<>();
+        ArrayList<Product> productsByPriceList = new ArrayList<>();
         for (Product product : products) {
             if (product.getPrice() >= minPrice && product.getPrice() < maxPrice) {
-                listAboutPrice.add(product);
+                productsByPriceList.add(product);
             }
         }
-        return listAboutPrice;
+        return productsByPriceList;
     }
-
 
 
 }

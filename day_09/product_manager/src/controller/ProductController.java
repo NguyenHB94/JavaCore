@@ -23,8 +23,8 @@ public class ProductController {
             switch (option) {
                 case 1: {
                     System.out.println("Danh sách sản phẩm gồm có: ");
-                    ArrayList<Product> listProduct = productService.getProducts();
-                    productService.prinInfo(listProduct);
+                    ArrayList<Product> listProduct = productService.getProductsList();
+                    productService.printInfo(listProduct);
                     System.out.println();
                     break;
                 }
@@ -39,7 +39,7 @@ public class ProductController {
                         System.out.println();
                     } else {
                         System.out.println("Thông tin sản phẩm bạn tìm kiếm: ");
-                        productService.prinInfo(products);
+                        productService.printInfo(products);
                         System.out.println();
                     }
                     break;
@@ -69,7 +69,9 @@ public class ProductController {
                                 }
 
                                 case 2: {
-                                    Product newProduct = productService.updateQuantity(product);
+                                    System.out.println("Nhập vào số lượng mới của sản phẩm: ");
+                                    int newQuantity = Integer.parseInt(sc.nextLine());
+                                    Product newProduct = productService.updateQuantity(product, newQuantity);
                                     System.out.println("Thông tin sản phẩm vừa cập nhật số lượng: ");
                                     System.out.println(newProduct);
                                     System.out.println();
@@ -95,12 +97,12 @@ public class ProductController {
                 }
 
                 case 4 : {
-                    ArrayList<Product> listSmallThan5 = productService.getProducSmallThan5();
+                    ArrayList<Product> listSmallThan5 = productService.findByNumber();
                     if (listSmallThan5.isEmpty()) {
                         System.out.println("Không có sản phẩm có số lượng dưới 5");
                     }else {
                         System.out.println("Thông tin sản phẩm có số lượng dưới 5 bao gồm: ");
-                        productService.prinInfo(listSmallThan5);
+                        productService.printInfo(listSmallThan5);
                         System.out.println();
                     }
                     break;
@@ -121,7 +123,7 @@ public class ProductController {
                                     System.out.println("Không có sản phẩm nào có mức giá dưới 50000");
                                 }else {
                                     System.out.println("Sản phẩm có mức giá dưới 50000 bao gồm: ");
-                                    productService.prinInfo(listPrice1);
+                                    productService.printInfo(listPrice1);
                                     System.out.println();
                                 }
                                 break;
@@ -133,7 +135,7 @@ public class ProductController {
                                     System.out.println("Không có sản phẩm nào có mức giá từ 50000 đến dưới 100000");
                                 }else {
                                     System.out.println("Sản phẩm có mức giá từ 50000 đến dưới 100000 bao gồm: ");
-                                    productService.prinInfo(listPrice2);
+                                    productService.printInfo(listPrice2);
                                     System.out.println();
                                 }
                                 break;
@@ -145,7 +147,7 @@ public class ProductController {
                                     System.out.println("Không có sản phẩm nào có mức giá từ 100000 trở lên");
                                 }else {
                                     System.out.println("Sản phẩm có mức giá từ 100000 trở lên bao gồm: ");
-                                    productService.prinInfo(listPrice3);
+                                    productService.printInfo(listPrice3);
                                     System.out.println();
                                 }
                                 break;
