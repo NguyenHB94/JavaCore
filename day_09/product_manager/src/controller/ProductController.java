@@ -58,7 +58,7 @@ public class ProductController {
                         int subOptionId = 0;
                         boolean isContinuesId = true;
 
-                        while (isContinuesId){
+                        while (isContinuesId) {
                             subMenuId();
                             System.out.println("Nhập lựa chọn: ");
                             subOptionId = Integer.parseInt(sc.nextLine());
