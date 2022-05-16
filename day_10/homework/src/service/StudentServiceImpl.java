@@ -6,7 +6,7 @@ import model.Student;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class StudentServiceImpl implements IStudentService{
+public class StudentServiceImpl implements IStudentService {
     Random rd = new Random();
     Scanner sc = new Scanner(System.in);
     private ArrayList<Student> students;
@@ -39,7 +39,7 @@ public class StudentServiceImpl implements IStudentService{
 
     @Override
     public Student addStudent() {
-        int id = rd.nextInt(5,100);
+        int id = rd.nextInt(5, 100);
         System.out.println("Nhập vào thông tin sinh viên");
         System.out.print("Tên = ");
         String name = sc.nextLine();
@@ -85,7 +85,7 @@ public class StudentServiceImpl implements IStudentService{
                 listStudentByClass.add(student);
             }
         }
-        if (listStudentByClass.isEmpty()){
+        if (listStudentByClass.isEmpty()) {
             System.out.println("Lớp vừa nhập vào không có trong danh sách");
         } else {
             System.out.println("Dánh sách sinh viên của lớp " + classroom + " là");
@@ -130,7 +130,7 @@ public class StudentServiceImpl implements IStudentService{
                 int tg = 0;
                 if (o1.getPoint() > o2.getPoint()) {
                     tg = 1;
-                } else if (o1.getPoint() <o2.getPoint()) {
+                } else if (o1.getPoint() < o2.getPoint()) {
                     tg = -1;
                 } else {
                     tg = 0;

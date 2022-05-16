@@ -5,23 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ac19202-72e6-477f-85ea-04b940002f87" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/homework.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/homework/controller/StudentController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/homework/service/IStudentService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/homework/service/StudentServiceImpl$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/homework/service/StudentServiceImpl$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/homework/service/StudentServiceImpl$3.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/homework/service/StudentServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/StudentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Student.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/IStudentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/StudentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../day_09/product_manager/src/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../day_09/product_manager/src/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/homework/controller/StudentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/homework/controller/StudentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/StudentServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
