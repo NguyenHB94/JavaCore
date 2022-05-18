@@ -1,47 +1,81 @@
 package service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.User;
 
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class UserServiceImpl implements IUserService {
 
     Scanner sc = new Scanner(System.in);
-    private ArrayList<User> users;
+
+    List<User> listUser = new ArrayList<>();
 
     public UserServiceImpl() {
-        init();
     }
 
-    public void init() {
-        users = new ArrayList<>();
-        users.add(new User("namhb1", "namhb@gmail.com", "nam123456"));
-        users.add(new User("congtb17", "congtb@gmail.com", "cong123456"));
-        users.add(new User("trunghv1", "trunghv@gmail.com", "trung123456"));
-        users.add(new User("sangnq", "sangnq@gmail.com", "sang123456"));
-        users.add(new User("huybq", "huybq@gmail.com", "huy123456"));
+    public List<User> getObjectFromJsonFile(String fileName) {
+        try {
+            Gson gson = new Gson();
+
+            Reader reader = Files.newBufferedReader(Paths.get(fileName));
+
+            List<User> users = Arrays.asList(gson.fromJson(reader, User[].class));
+
+            reader.close();
+            return users;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void convertObjectToJsonFile(String fileName, Object obj) {
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            Writer writer = Files.newBufferedWriter(Paths.get(fileName));
+
+            gson.toJson(obj, writer);
+
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public User login(String email, String password) {
-
-        boolean isLogin;
-
-        for (User user : users) {
+    public User login() {
+        listUser = getObjectFromJsonFile("list-acount.json");
+        User userlogin = new User();
+        System.out.println("Nhập Email đăng nhập: ");
+        String email = sc.nextLine();
+        System.out.println("Nhập mật khẩu: ");
+        String password = sc.nextLine();
+        for (User user : listUser) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                return user;
+                userlogin = user;
+                break;
             }
         }
-
-        return null;
-
+        return userlogin;
     }
 
     @Override
-    public void changeUserName(User user, String newUserName) {
+    public void changeUserName(User user) {
+        System.out.println("Nhập username mới: ");
+        String newUserName = sc.nextLine();
         user.setUsername(newUserName);
+        convertObjectToJsonFile("list-acount.json", listUser);
         System.out.println("Bạn đã thay đổi thành công tên đăng nhập mới: " + newUserName);
     }
 
@@ -51,7 +85,7 @@ public class UserServiceImpl implements IUserService {
         String newEmail = sc.nextLine();
 
         if (checkSyntaxEmail(newEmail)) {
-            for (User u : users) {
+            for (User u : listUser) {
                 if (u.getEmail().equals(newEmail)) {
                     System.out.println("Email đã tồn tại, vui lòng nhập Email khác");
                     break;
@@ -83,7 +117,7 @@ public class UserServiceImpl implements IUserService {
     public void recoverPasswordByEmail() {
         System.out.println("Nhập vào email đăng nhập: ");
         String email = sc.nextLine();
-        for (User u : users) {
+        for (User u : listUser) {
             if (u.getEmail().equals(email)) {
                 System.out.println("Nhập mật khẩu mới: ");
                 String newPasswords = sc.nextLine();
@@ -177,3 +211,5 @@ public class UserServiceImpl implements IUserService {
         return resultpw;
     }
 }
+
+

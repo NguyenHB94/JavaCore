@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public interface IUserService {
 
-    public User login(String email, String password);
-    public void changeUserName(User user, String newUserName);
+    public User login();
+    public void changeUserName(User user);
     public void changeEmail(User user);
     public void changePassword(User user);
     public void recoverPasswordByEmail();
