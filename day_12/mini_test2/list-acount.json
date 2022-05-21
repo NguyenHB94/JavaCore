@@ -1,5 +1,22 @@
-{
-  "username": "nguyenhb",
-  "email": "abc@gmail.com",
-  "password": "n1234567"
-}
+[
+  {
+    "username": "nguyenhb1",
+    "email": "nhb@gmail.com",
+    "password": "nhb12345"
+  },
+  {
+    "username": "nguyenhb",
+    "email": "nguyenhb@gmail.com",
+    "password": "nguyen111"
+  },
+  {
+    "username": "vanvan",
+    "email": "van@gmail.com",
+    "password": "vanvan123"
+  },
+  {
+    "username": "tung123",
+    "email": "tung@gmail.com",
+    "password": "tung1234"
+  }
+]

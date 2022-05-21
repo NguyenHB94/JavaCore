@@ -4,88 +4,108 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.User;
 
-import java.io.IOException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class UserServiceImpl implements IUserService {
 
     Scanner sc = new Scanner(System.in);
 
-    private List<User> listUser;
+
+    List<User> listUser = new ArrayList<>();
+    Optional<List<User>> optionalListUsers;
 
     public UserServiceImpl() {
+        listUser = getListObjectFromJsonFile("list-acount.json");
+        //List<User> users = new ArrayList<>(listUser);
+        optionalListUsers = Optional.ofNullable(listUser);
     }
 
-    public List<User> readObjectFromJsonFile(String fileName) {
 
-        List<User> users = null;
+    public List<User> getListObjectFromJsonFile(String fileName) {
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            // Khởi tạo đối tượng gson
+            Gson gson = new Gson();
 
-            Reader reader = Files.newBufferedReader(Paths.get(fileName));
+            // Tạo đối tượng reader để đọc file
+            //Reader reader = Files.newBufferedReader(Paths.get(fileName));
 
-            users = Arrays.asList(gson.fromJson(reader, User[].class));
+            FileReader reader = new FileReader(fileName);
 
+            // Đọc thông tin từ file và binding và class
+
+            List<User> users = Arrays.asList(gson.fromJson(reader, User[].class));
+
+            // Đọc file xong thì đóng lại
+            // Và trả về kết quả
             reader.close();
-
-//            return users;
-
+            return users;
         } catch (NullPointerException e) {
-            System.out.println("Dữ liệu account trống");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return users;
+
+        return null;
     }
 
-    private void writerObjectToJsonFile(String fileName, Object obj) {
+    private void convertObjectToJsonFile(String fileName, Object obj) {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            Writer writer = Files.newBufferedWriter(Paths.get(fileName));
+            //Writer writer = Files.newBufferedWriter(Paths.get(fileName));
+            Writer writer = new FileWriter(fileName);
 
             gson.toJson(obj, writer);
 
             writer.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public User login() {
-        listUser = readObjectFromJsonFile("list-acount.json");
+        listUser = getListObjectFromJsonFile("list-acount.json");
         System.out.println("Nhập Email đăng nhập: ");
         String email = sc.nextLine();
         System.out.println("Nhập mật khẩu: ");
         String password = sc.nextLine();
-        try {
-            for (User userLogin : listUser) {
-                if (userLogin.getEmail().equals(email) && userLogin.getPassword().equals(password)) {
-                    return userLogin;
-                }
-            }
-        } catch (NullPointerException e) {
-            System.out.println("Email or Password is not found");
+        if (optionalListUsers.isEmpty()) {
+            throw new CustomException("Email hoặc mật khẩu không tồn tại");
         }
-
-        return null;
+        User user = new User();
+        int haveUser = 0;
+        for (User userLogin : listUser) {
+            if (userLogin.getEmail().equals(email) && userLogin.getPassword().equals(password)) {
+                user = userLogin;
+                haveUser++;
+            }
+        }
+        if (haveUser == 0) {
+            throw new CustomException("Email hoặc mật khẩu không đúng");
+        }
+        return user;
     }
 
     @Override
     public void changeUserName(User user) {
         System.out.println("Nhập username mới: ");
         String newUserName = sc.nextLine();
+        if (checkSyntaxUserName(newUserName)) {
+            throw new CustomException("Tên đăng nhập không đúng định dạng");
+        }
+        if (checkUserNameOfList(newUserName)) {
+            throw new CustomException("Tên đăng nhập đã tồn tại");
+        }
         user.setUsername(newUserName);
-        writerObjectToJsonFile("list-acount.json", listUser);
+        convertObjectToJsonFile("list-acount.json", listUser);
         System.out.println("Bạn đã thay đổi thành công tên đăng nhập mới: " + newUserName);
     }
 
@@ -94,21 +114,17 @@ public class UserServiceImpl implements IUserService {
         System.out.println("Nhập vào Email mới");
         String newEmail = sc.nextLine();
 
-        if (checkSyntaxEmail(newEmail)) {
-            for (User u : listUser) {
-                if (u.getEmail().equals(newEmail)) {
-                    System.out.println("Email đã tồn tại, vui lòng nhập Email khác");
-                    break;
-                } else {
-                    user.setEmail(newEmail);
-                    writerObjectToJsonFile("list-acount.json", listUser);
-                    System.out.println("Chúc mừng bạn đã thay đổi thành công Email mới: " + newEmail);
-                    break;
-                }
-            }
-        } else {
-            System.out.println("Email mới nhập vào không hợp lệ, vui lòng nhập Email khác");
+        if (!checkSyntaxEmail(newEmail)) {
+            throw new CustomException("Email không đúng định dạng");
         }
+
+        if (checkEmailOfList(newEmail)) {
+            throw new CustomException("Email đã tồn tại");
+        }
+
+        user.setEmail(newEmail);
+        convertObjectToJsonFile("list-acount.json", listUser);
+        System.out.println("Chúc mừng bạn đã thay đổi thành công Email mới: " + newEmail);
 
     }
 
@@ -116,30 +132,37 @@ public class UserServiceImpl implements IUserService {
     public void changePassword(User user) {
         System.out.println("Nhập vào password mới");
         String newPassword = sc.nextLine();
-        if (checkSyntaxPassword(newPassword)) {
-            user.setPassword(newPassword);
-            writerObjectToJsonFile("list-acount", listUser);
-            System.out.println("Bạn đã thay đổi password thành công");
-        } else {
-            System.out.println("Password không hợp lệ");
+        if (!checkSyntaxPassword(newPassword)) {
+           throw new CustomException("Password không đúng định dạng");
         }
+        user.setPassword(newPassword);
+        convertObjectToJsonFile("list-acount.json", listUser);
+        System.out.println("Bạn đã thay đổi password thành công");
     }
 
     @Override
-    public void recoverPasswordByEmail() {
+    public void forgetPassowrd() {
         System.out.println("Nhập vào email đăng nhập: ");
         String email = sc.nextLine();
+        int haveEmail = 0;
         for (User u : listUser) {
             if (u.getEmail().equals(email)) {
+                haveEmail ++;
                 System.out.println("Nhập mật khẩu mới: ");
                 String newPasswords = sc.nextLine();
 
+                if (!checkSyntaxPassword(newPasswords)) {
+                    throw new CustomException("Password không hợp lệ");
+                }
+
                 u.setPassword(newPasswords);
-                writerObjectToJsonFile("list-acount", listUser);
+                convertObjectToJsonFile("list-acount.json", listUser);
                 System.out.println("Chúc mừng bạn thay đổi mật khẩu mới thành công");
-            } else {
-                System.out.println("Tài khoản không tồn tại");
             }
+
+        }
+        if (haveEmail == 0) {
+            throw new CustomException("Email không tồn tại");
         }
     }
 
@@ -148,68 +171,69 @@ public class UserServiceImpl implements IUserService {
         System.out.println("Nhập vào thôn tin tài khoản cần tạo mới: ");
         System.out.print("Nhập vào tên đăng nhập: ");
         String userName = sc.nextLine();
-        if (checkSyntaxUserName(userName)) {
-            if (checkUserNameOfList(userName, listUser)) {
-                System.out.print("Nhập vào Email: ");
-                String email = sc.nextLine();
-                if (checkSyntaxEmail(email)) {
-                    if (checkEmailOfList(email, listUser)) {
-                        System.out.print("Password = ");
-                        String password = sc.nextLine();
-                        if (checkSyntaxPassword(password)) {
-                            User newUser = new User(userName, email, password);
-                            //listUser = readObjectFromJsonFile("list-acount.json");
-                            if (listUser == null) {
-                                writerObjectToJsonFile("list-acount.json", newUser);
-                            } else {
-                                listUser.add(newUser);
-                                writerObjectToJsonFile("list-acount.json", listUser);
-                            }
-                            System.out.println("Tạo tài khoản mới thành công");
-                        } else {
-                            System.out.println("Password không hợp lệ");
-                        }
-                    } else {
-                        System.out.println("Email đã tồn tại");
-                    }
-                } else {
-                    System.out.println("Email Không hợp lệ");
-                }
-            } else {
-                System.out.println("Username đã tồn tại");
-            }
+        if (checkUserNameOfList(userName)) {
+            throw new CustomException("Tên đăng nhập đã tồn tại");
+        }
+        if (!checkSyntaxUserName(userName)) {
+            throw new CustomException("Tên đăng nhập không đúng định dạng");
+        }
+
+        System.out.print("Nhập vào email: ");
+        String email = sc.nextLine();
+        if (checkEmailOfList(email)) {
+            throw new CustomException("Email đã tồn tại");
+        }
+        if (!checkSyntaxEmail(email)) {
+            throw new CustomException("Email không đúng định dạng");
+        }
+
+        System.out.print("Nhập vào mật khẩu: ");
+        String password = sc.nextLine();
+        if (!checkSyntaxPassword(password)) {
+            throw new CustomException("Mật khẩu không đúng định dạng");
+        }
+
+        User newUser = new User(userName, email, password);
+        List<User> newUsers = new ArrayList<>();
+        if (optionalListUsers.isEmpty()) {
+            newUsers.add(newUser);
+            convertObjectToJsonFile("list-acount.json", newUsers);
         } else {
-            System.out.println("Username không hợp lệ");
+//            newUsers.add(newUser);
+//            newUsers.addAll(listUser);
+            List<User> users = new ArrayList<>(listUser);
+            users.add(newUser);
+            convertObjectToJsonFile("list-acount.json", users);
         }
-
+        System.out.println("Đăng ký thành công");
     }
 
     @Override
-    public boolean checkUserNameOfList(String username, List<User> users) {
-        try {
-            for (User u : users) {
-                if (u.getPassword().equals(username)) {
-                    return false;
+    public boolean checkUserNameOfList(String username) {
+        if (optionalListUsers.isPresent()) {
+            for (User u : listUser) {
+                if (u.getUsername().equals(username)) {
+                    return true;
                 }
             }
-        } catch (NullPointerException e) {
-
+            return false;
         }
-        return true;
+
+        return false;
     }
 
     @Override
-    public boolean checkEmailOfList(String email, List<User> users) {
-        try {
-            for (User u : users) {
-                if (u.getPassword().equals(email)) {
-                    return false;
+    public boolean checkEmailOfList(String email) {
+        if (optionalListUsers.isPresent()) {
+            for (User u : listUser) {
+                if (u.getEmail().equals(email)) {
+                    return true;
                 }
             }
-        } catch (NullPointerException e) {
-
+            return false;
         }
-        return true;
+
+        return false;
     }
 
     @Override

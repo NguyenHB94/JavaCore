@@ -2,8 +2,7 @@ package service;
 
 import model.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public interface IUserService {
 
@@ -11,10 +10,10 @@ public interface IUserService {
     public void changeUserName(User user);
     public void changeEmail(User user);
     public void changePassword(User user);
-    public void recoverPasswordByEmail();
-    public void createNewUser();
-    public boolean checkUserNameOfList(String username, List<User> users);
-    public boolean checkEmailOfList(String email,List<User> users);
+    public void forgetPassowrd();
+    public void createNewUser() throws IOException;
+    public boolean checkUserNameOfList(String username);
+    public boolean checkEmailOfList(String email);
     public boolean checkSyntaxUserName(String userName);
     public boolean checkSyntaxEmail(String email);
     public boolean checkSyntaxPassword(String password);
