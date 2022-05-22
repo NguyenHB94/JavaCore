@@ -2,67 +2,69 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import model.User;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl {
 
     Scanner sc = new Scanner(System.in);
 
 
     List<User> listUser = new ArrayList<>();
-    Optional<List<User>> optionalListUsers;
 
     public UserServiceImpl() {
         listUser = getListObjectFromJsonFile("list-acount.json");
-        //List<User> users = new ArrayList<>(listUser);
-        optionalListUsers = Optional.ofNullable(listUser);
+        //init();
     }
 
+//    private void init() {
+//        listUser = getListObjectFromJsonFile("list-acount.json");
+//    }
 
     public List<User> getListObjectFromJsonFile(String fileName) {
+        List<User> users = new ArrayList<>();
         try {
             // Khởi tạo đối tượng gson
             Gson gson = new Gson();
 
             // Tạo đối tượng reader để đọc file
             //Reader reader = Files.newBufferedReader(Paths.get(fileName));
-
             FileReader reader = new FileReader(fileName);
 
             // Đọc thông tin từ file và binding và class
-
-            List<User> users = Arrays.asList(gson.fromJson(reader, User[].class));
+            users = Arrays.asList(gson.fromJson(reader, User[].class));
 
             // Đọc file xong thì đóng lại
             // Và trả về kết quả
             reader.close();
-            return users;
-        } catch (NullPointerException e) {
-
-        } catch (Exception e) {
+        }
+        catch (NullPointerException e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
+        return users;
     }
 
-    private void convertObjectToJsonFile(String fileName, Object obj) {
+    private void convertObjectToJsonFile(String fileName, List<User> users) {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
             //Writer writer = Files.newBufferedWriter(Paths.get(fileName));
             Writer writer = new FileWriter(fileName);
 
-            gson.toJson(obj, writer);
+            gson.toJson(users, writer);
 
             writer.close();
         } catch (Exception e) {
@@ -70,16 +72,14 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    @Override
+    //@Override
     public User login() {
         listUser = getListObjectFromJsonFile("list-acount.json");
         System.out.println("Nhập Email đăng nhập: ");
         String email = sc.nextLine();
         System.out.println("Nhập mật khẩu: ");
         String password = sc.nextLine();
-        if (optionalListUsers.isEmpty()) {
-            throw new CustomException("Email hoặc mật khẩu không tồn tại");
-        }
+
         User user = new User();
         int haveUser = 0;
         for (User userLogin : listUser) {
@@ -94,11 +94,11 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
-    @Override
+    //@Override
     public void changeUserName(User user) {
         System.out.println("Nhập username mới: ");
         String newUserName = sc.nextLine();
-        if (checkSyntaxUserName(newUserName)) {
+        if (!checkSyntaxUserName(newUserName)) {
             throw new CustomException("Tên đăng nhập không đúng định dạng");
         }
         if (checkUserNameOfList(newUserName)) {
@@ -109,7 +109,7 @@ public class UserServiceImpl implements IUserService {
         System.out.println("Bạn đã thay đổi thành công tên đăng nhập mới: " + newUserName);
     }
 
-    @Override
+    //@Override
     public void changeEmail(User user) {
         System.out.println("Nhập vào Email mới");
         String newEmail = sc.nextLine();
@@ -128,26 +128,26 @@ public class UserServiceImpl implements IUserService {
 
     }
 
-    @Override
+    //@Override
     public void changePassword(User user) {
         System.out.println("Nhập vào password mới");
         String newPassword = sc.nextLine();
         if (!checkSyntaxPassword(newPassword)) {
-           throw new CustomException("Password không đúng định dạng");
+            throw new CustomException("Password không đúng định dạng");
         }
         user.setPassword(newPassword);
         convertObjectToJsonFile("list-acount.json", listUser);
         System.out.println("Bạn đã thay đổi password thành công");
     }
 
-    @Override
+    //@Override
     public void forgetPassowrd() {
         System.out.println("Nhập vào email đăng nhập: ");
         String email = sc.nextLine();
         int haveEmail = 0;
         for (User u : listUser) {
             if (u.getEmail().equals(email)) {
-                haveEmail ++;
+                haveEmail++;
                 System.out.println("Nhập mật khẩu mới: ");
                 String newPasswords = sc.nextLine();
 
@@ -166,7 +166,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    @Override
+    //@Override
     public void createNewUser() {
         System.out.println("Nhập vào thôn tin tài khoản cần tạo mới: ");
         System.out.print("Nhập vào tên đăng nhập: ");
@@ -193,57 +193,41 @@ public class UserServiceImpl implements IUserService {
             throw new CustomException("Mật khẩu không đúng định dạng");
         }
 
-        User newUser = new User(userName, email, password);
-        List<User> newUsers = new ArrayList<>();
-        if (optionalListUsers.isEmpty()) {
-            newUsers.add(newUser);
-            convertObjectToJsonFile("list-acount.json", newUsers);
-        } else {
-//            newUsers.add(newUser);
-//            newUsers.addAll(listUser);
-            List<User> users = new ArrayList<>(listUser);
-            users.add(newUser);
-            convertObjectToJsonFile("list-acount.json", users);
-        }
+        List<User> addUser = new ArrayList<>(listUser);
+        addUser.add(new User(userName, email, password));
+        convertObjectToJsonFile("list-acount.json", addUser);
+
         System.out.println("Đăng ký thành công");
     }
 
-    @Override
+    //@Override
     public boolean checkUserNameOfList(String username) {
-        if (optionalListUsers.isPresent()) {
-            for (User u : listUser) {
-                if (u.getUsername().equals(username)) {
-                    return true;
-                }
+        for (User u : listUser) {
+            if (u.getUsername().equals(username)) {
+                return true;
             }
-            return false;
         }
-
         return false;
     }
 
-    @Override
+    //@Override
     public boolean checkEmailOfList(String email) {
-        if (optionalListUsers.isPresent()) {
-            for (User u : listUser) {
-                if (u.getEmail().equals(email)) {
-                    return true;
-                }
+        for (User u : listUser) {
+            if (u.getEmail().equals(email)) {
+                return true;
             }
-            return false;
         }
-
         return false;
     }
 
-    @Override
+    //@Override
     public boolean checkSyntaxUserName(String userName) {
         String USERNAME_PATTERN = "^[a-z0-9_-]{3,15}$";
         boolean resultusr = Pattern.matches(USERNAME_PATTERN, userName);
         return resultusr;
     }
 
-    @Override
+    //@Override
     public boolean checkSyntaxEmail(String email) {
         String EMAIL_PATTERN = "^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$";
 
@@ -251,7 +235,7 @@ public class UserServiceImpl implements IUserService {
         return resulte;
     }
 
-    @Override
+    //@Override
     public boolean checkSyntaxPassword(String password) {
         boolean resultpw;
         if (password.length() > 7 && password.length() < 15) {

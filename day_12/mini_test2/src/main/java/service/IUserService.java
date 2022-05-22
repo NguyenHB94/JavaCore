@@ -11,7 +11,7 @@ public interface IUserService {
     public void changeEmail(User user);
     public void changePassword(User user);
     public void forgetPassowrd();
-    public void createNewUser() throws IOException;
+    public void createNewUser();
     public boolean checkUserNameOfList(String username);
     public boolean checkEmailOfList(String email);
     public boolean checkSyntaxUserName(String userName);

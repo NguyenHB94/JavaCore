@@ -133,7 +133,7 @@ public class UserController {
     }
 
     public void mainMenu() {
-        System.out.println("********MENU********");
+        System.out.println("*******MENU*******");
         System.out.println("1. Đăng nhập");
         System.out.println("2. Đăng ký");
         System.out.println("3. Quên mật khẩu");
@@ -141,7 +141,7 @@ public class UserController {
     }
 
     public void subMenu() {
-        System.out.println("*****Action*****");
+        System.out.println("*******Action*******");
         System.out.println("1. Thay đổi username");
         System.out.println("2. Thay đổi email");
         System.out.println("3. Thay đổi mật khẩu");
