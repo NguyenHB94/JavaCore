@@ -111,7 +111,7 @@ public class MovieService {
     }
 
     public void countMovieByCategry() {
-            Set<String> set = new HashSet<>();
+        Set<String> set = new HashSet<>();
         for (Movie movie : movieList) {
             for (String s : movie.getCategory()) {
                 set.add(s);
@@ -123,7 +123,7 @@ public class MovieService {
             for (Movie movie : movieList) {
                 for (String s : movie.getCategory()) {
                     if (s.equals(c)) {
-                        count ++;
+                        count++;
                     }
                 }
             }
