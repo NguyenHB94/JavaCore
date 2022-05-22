@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class UserServiceImpl {
+public class UserServiceImpl implements IUserService {
 
     Scanner sc = new Scanner(System.in);
 
@@ -23,13 +23,12 @@ public class UserServiceImpl {
     List<User> listUser = new ArrayList<>();
 
     public UserServiceImpl() {
-        listUser = getListObjectFromJsonFile("list-acount.json");
-        //init();
+        getList();
     }
 
-//    private void init() {
-//        listUser = getListObjectFromJsonFile("list-acount.json");
-//    }
+    private void getList() {
+        listUser = getListObjectFromJsonFile("list-account.json");
+    }
 
     public List<User> getListObjectFromJsonFile(String fileName) {
         List<User> users = new ArrayList<>();
@@ -47,10 +46,8 @@ public class UserServiceImpl {
             // Đọc file xong thì đóng lại
             // Và trả về kết quả
             reader.close();
-        }
-        catch (NullPointerException e) {
-        }
-        catch (Exception e) {
+        } catch (NullPointerException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -72,9 +69,9 @@ public class UserServiceImpl {
         }
     }
 
-    //@Override
+    @Override
     public User login() {
-        listUser = getListObjectFromJsonFile("list-acount.json");
+        getList();
         System.out.println("Nhập Email đăng nhập: ");
         String email = sc.nextLine();
         System.out.println("Nhập mật khẩu: ");
@@ -94,7 +91,7 @@ public class UserServiceImpl {
         return user;
     }
 
-    //@Override
+    @Override
     public void changeUserName(User user) {
         System.out.println("Nhập username mới: ");
         String newUserName = sc.nextLine();
@@ -105,11 +102,11 @@ public class UserServiceImpl {
             throw new CustomException("Tên đăng nhập đã tồn tại");
         }
         user.setUsername(newUserName);
-        convertObjectToJsonFile("list-acount.json", listUser);
+        convertObjectToJsonFile("list-account.json", listUser);
         System.out.println("Bạn đã thay đổi thành công tên đăng nhập mới: " + newUserName);
     }
 
-    //@Override
+    @Override
     public void changeEmail(User user) {
         System.out.println("Nhập vào Email mới");
         String newEmail = sc.nextLine();
@@ -123,12 +120,12 @@ public class UserServiceImpl {
         }
 
         user.setEmail(newEmail);
-        convertObjectToJsonFile("list-acount.json", listUser);
+        convertObjectToJsonFile("list-account.json", listUser);
         System.out.println("Chúc mừng bạn đã thay đổi thành công Email mới: " + newEmail);
 
     }
 
-    //@Override
+    @Override
     public void changePassword(User user) {
         System.out.println("Nhập vào password mới");
         String newPassword = sc.nextLine();
@@ -136,12 +133,13 @@ public class UserServiceImpl {
             throw new CustomException("Password không đúng định dạng");
         }
         user.setPassword(newPassword);
-        convertObjectToJsonFile("list-acount.json", listUser);
+        convertObjectToJsonFile("list-account.json", listUser);
         System.out.println("Bạn đã thay đổi password thành công");
     }
 
-    //@Override
+    @Override
     public void forgetPassowrd() {
+        getList();
         System.out.println("Nhập vào email đăng nhập: ");
         String email = sc.nextLine();
         int haveEmail = 0;
@@ -156,7 +154,7 @@ public class UserServiceImpl {
                 }
 
                 u.setPassword(newPasswords);
-                convertObjectToJsonFile("list-acount.json", listUser);
+                convertObjectToJsonFile("list-account.json", listUser);
                 System.out.println("Chúc mừng bạn thay đổi mật khẩu mới thành công");
             }
 
@@ -166,8 +164,9 @@ public class UserServiceImpl {
         }
     }
 
-    //@Override
+    @Override
     public void createNewUser() {
+        getList();
         System.out.println("Nhập vào thôn tin tài khoản cần tạo mới: ");
         System.out.print("Nhập vào tên đăng nhập: ");
         String userName = sc.nextLine();
@@ -195,12 +194,14 @@ public class UserServiceImpl {
 
         List<User> addUser = new ArrayList<>(listUser);
         addUser.add(new User(userName, email, password));
-        convertObjectToJsonFile("list-acount.json", addUser);
+        convertObjectToJsonFile("list-account.json", addUser);
+//        listUser.add(new User(userName, email, password));
+//        convertObjectToJsonFile("list-account.json", listUser);
 
         System.out.println("Đăng ký thành công");
     }
 
-    //@Override
+    @Override
     public boolean checkUserNameOfList(String username) {
         for (User u : listUser) {
             if (u.getUsername().equals(username)) {
@@ -210,7 +211,7 @@ public class UserServiceImpl {
         return false;
     }
 
-    //@Override
+    @Override
     public boolean checkEmailOfList(String email) {
         for (User u : listUser) {
             if (u.getEmail().equals(email)) {
@@ -220,14 +221,14 @@ public class UserServiceImpl {
         return false;
     }
 
-    //@Override
+    @Override
     public boolean checkSyntaxUserName(String userName) {
         String USERNAME_PATTERN = "^[a-z0-9_-]{3,15}$";
         boolean resultusr = Pattern.matches(USERNAME_PATTERN, userName);
         return resultusr;
     }
 
-    //@Override
+    @Override
     public boolean checkSyntaxEmail(String email) {
         String EMAIL_PATTERN = "^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$";
 
@@ -235,7 +236,7 @@ public class UserServiceImpl {
         return resulte;
     }
 
-    //@Override
+    @Override
     public boolean checkSyntaxPassword(String password) {
         boolean resultpw;
         if (password.length() > 7 && password.length() < 15) {
