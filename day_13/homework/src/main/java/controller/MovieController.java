@@ -24,10 +24,11 @@ public class MovieController {
                 //break;
                 option = 0;
             }
+            System.out.println();
 
             switch (option) {
                 case 1 : {
-                    System.out.println("Thông tin tất cả các phim gồm có: ");
+                    System.out.println("Danh sách tất cả các phim gồm có: ");
                     movieService.showInfo();
                     break;
                 }
@@ -39,18 +40,18 @@ public class MovieController {
                 }
 
                 case 3 : {
-                    System.out.println("Danh sách phim sắp xếp theo thời lượng: ");
+                    System.out.println("Danh sách phim theo thời lượng giảm dần: ");
                     movieService.sortByLength();
                     break;
                 }
 
                 case 4 : {
-                    System.out.println("Danh sách phim sắp xếp theo lượt xem: ");
+                    System.out.println("Danh sách phim theo số lượt xem giảm dần: ");
                     movieService.sortByView();
                     break;
                 }
                 case 5 : {
-
+                    movieService.countMovieByCategry();
                     break;
                 }
 

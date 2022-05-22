@@ -9,13 +9,12 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.util.*;
 
+
 public class MovieService {
     List<Movie> movieList = new ArrayList<>();
-    //Optional<List<Movie>> optionalMovies;
 
     public MovieService() {
         movieList = getListObjectFromJsonFile("movie.json");
-        //optionalMovies = Optional.ofNullable(movieList);
     }
 
     public List<Movie> getListObjectFromJsonFile(String fileName) {
@@ -25,11 +24,9 @@ public class MovieService {
 
             // Tạo đối tượng reader để đọc file
             //Reader reader = Files.newBufferedReader(Paths.get(fileName));
-
             FileReader reader = new FileReader(fileName);
 
             // Đọc thông tin từ file và binding và class
-
             List<Movie> movies = Arrays.asList(gson.fromJson(reader, Movie[].class));
 
             // Đọc file xong thì đóng lại
@@ -71,6 +68,7 @@ public class MovieService {
         for (Movie movie : movieList) {
             System.out.println(movie);
         }
+        System.out.println();
     }
 
     public void sortByName() {
@@ -83,6 +81,7 @@ public class MovieService {
         for (Movie movie : movieList) {
             System.out.println(movie);
         }
+        System.out.println();
     }
 
     public void sortByLength() {
@@ -95,6 +94,7 @@ public class MovieService {
         for (Movie movie : movieList) {
             System.out.println(movie);
         }
+        System.out.println();
     }
 
     public void sortByView() {
@@ -107,5 +107,28 @@ public class MovieService {
         for (Movie movie : movieList) {
             System.out.println(movie);
         }
+        System.out.println();
+    }
+
+    public void countMovieByCategry() {
+            Set<String> set = new HashSet<>();
+        for (Movie movie : movieList) {
+            for (String s : movie.getCategory()) {
+                set.add(s);
+            }
+        }
+
+        for (String c : set) {
+            int count = 0;
+            for (Movie movie : movieList) {
+                for (String s : movie.getCategory()) {
+                    if (s.equals(c)) {
+                        count ++;
+                    }
+                }
+            }
+            System.out.println("Thể loại " + c + " có " + count + " bộ phim");
+        }
+        System.out.println();
     }
 }
