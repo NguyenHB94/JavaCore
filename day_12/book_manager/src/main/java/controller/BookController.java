@@ -73,6 +73,7 @@ public class BookController {
                 }
                 case 6 : {
                     isContinues = false;
+                    break;
                 }
                 default: {
                     System.out.println("Lựa chọn không hợp lệ");
