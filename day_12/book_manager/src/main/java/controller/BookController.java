@@ -16,7 +16,12 @@ public class BookController {
         while (isContinues) {
             showMenu();
             System.out.println("Nhập vào lựa chọn: ");
-            option = Integer.parseInt(sc.nextLine());
+            try {
+                option = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                option = 0;
+            }
+
 
             switch (option) {
                 case 1 : {
@@ -30,15 +35,48 @@ public class BookController {
                     System.out.println("Nhập tên sách cần tìm kiếm");
                     String title = sc.nextLine();
                     List<Book> bookFindByName = bookService.finByName(title);
-                    bookService.showInfo(bookFindByName);
+                    if (bookFindByName.isEmpty()) {
+                        System.out.println("Không có sách bạn cần tìm");
+                        System.out.println();
+                    } else {
+                        System.out.println("Sách bạn tìm gồm có:");
+                        bookService.showInfo(bookFindByName);
+                        System.out.println();
+                    }
+
                     break;
                 }
                 case 3 : {
-
                     System.out.println("Nhập thể loại");
                     String category = sc.next();
                     List<Book> bookFindByCategory = bookService.findByCategory(category);
-                    bookService.showInfo(bookFindByCategory);
+                    if (bookFindByCategory.isEmpty()) {
+                        System.out.println("Không có sách thuộc thể loại bạn tìm kiếm");
+                        System.out.println();
+                    } else {
+                        System.out.println("Sách thuộc thể loại " + category + " gồm có:");
+                        bookService.showInfo(bookFindByCategory);
+                        System.out.println();
+                    }
+
+                    break;
+                }
+                case 4 : {
+                    bookService.sortByPageNumber();
+                    System.out.println();
+                    break;
+                }
+                case 5 : {
+                    bookService.sortByReleaseYear();
+                    System.out.println();
+                    break;
+                }
+                case 6 : {
+                    isContinues = false;
+                }
+                default: {
+                    System.out.println("Lựa chọn không hợp lệ");
+                    System.out.println();
                     break;
                 }
             }

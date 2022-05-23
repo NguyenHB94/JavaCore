@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class BookService {
@@ -18,9 +19,10 @@ public class BookService {
     //Tìm sách theo thể loại
     //Sắp xếp sách theo số trang
     //Sắp xếp sách theo năm xuất bản
-    private List<Book> bookList;
+    private List<Book> bookList = new ArrayList<>();
 
     public BookService() {
+        getBookList();
     }
 
     public List<Book> getListObjectFromJsonFile(String fileName) {
@@ -45,40 +47,18 @@ public class BookService {
         return null;
     }
 
-    public void convertObjectToJsonFile(String fileName, Object obj) {
-        try {
-            // Tạo đối tượng gson
-            // Gson gson = new Gson();
-
-            // Nếu muốn format JSON cho đẹp
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-            // Tạo đối tượng Writer để ghi nội dung vào file
-            Writer writer = Files.newBufferedWriter(Paths.get(fileName));
-
-            // Ghi object vào file
-            gson.toJson(obj, writer);
-
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public List<Book> getBookList(){
-        bookList = getListObjectFromJsonFile("book.json");
-        return bookList;
+         return bookList = getListObjectFromJsonFile("book.json");
     }
 
     //Lấy và in ra thông tin sách
     public void showInfo(List<Book> books) {
-        for (Book book : bookList) {
+        for (Book book : books) {
             System.out.println(book);
         }
     }
 
     public List<Book> finByName(String title) {
-        getBookList();
         List<Book> listBookByName = new ArrayList<>();
         for (Book book : bookList) {
             if (book.getTitle().contains(title)) {
@@ -88,12 +68,11 @@ public class BookService {
         return listBookByName;
     }
 
-    public List<Book> findByCategory(String category) {
-        getBookList();
+    public List<Book> findByCategory(String findCategory) {
         List<Book> listBookByCategory = new ArrayList<>();
         for (Book book : bookList) {
             for (String st : book.getCategory()) {
-                if (st.contains(category)) {
+                if (st.equals(findCategory)) {
                     listBookByCategory.add(book);
                 }
             }
@@ -102,18 +81,40 @@ public class BookService {
     }
 
     public List<Book> findByAuthor(String author) {
-        getBookList();
         List<Book> listBookByAuthor = new ArrayList<>();
         for (Book book : bookList) {
-            if (book.getAuthor().contains(author)) {
+            if (book.getAuthor().contentEquals(author)) {
                 listBookByAuthor.add(book);
             }
         }
         return listBookByAuthor;
     }
 
-    public List<Book> sortByPageNumber() {
-        getBookList();
+    public void sortByPageNumber() {
+        bookList.sort(new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o1.getPage_number() - o2.getPage_number();
+            }
+        });
+
+        for (Book b : bookList) {
+            System.out.println(b);
+        }
+
+    }
+
+    public void sortByReleaseYear() {
+        bookList.sort(new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o1.getRelease_year() - o2.getRelease_year();
+            }
+        });
+
+        for (Book b : bookList) {
+            System.out.println(b);
+        }
     }
 
 }
