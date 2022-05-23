@@ -2,7 +2,7 @@ package demo_exception;
 
 import java.io.IOException;
 
-public class DemoCallStackCheck {
+public class DemoCallStackChecked {
     public static void main(String[] args) {
         methodThree();
 

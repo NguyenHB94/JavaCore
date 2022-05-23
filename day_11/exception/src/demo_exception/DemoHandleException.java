@@ -1,9 +1,6 @@
 package demo_exception;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class DemoHandleException {
     public static void main(String[] args) {
@@ -36,16 +33,28 @@ public class DemoHandleException {
         //Xử lý ngoại lệ checked
 
         try {
+
+            //Khỏi tạo đối tượng file
             File file = new File("text.txt");
+            //Đọc file
             FileReader fileReader = new FileReader(file);
-        } catch (FileNotFoundException e) {
+            BufferedReader  bufferedReader = new BufferedReader(fileReader);
+
+//            String s;
+//            while ((s = bufferedReader.readLine()) != null) {
+//                System.out.println(s);
+//            }
+
+            for (int i = 0; i < 2; i++) {
+                System.out.println(bufferedReader.readLine());
+            }
+
+        } catch (IOException e) {
             System.out.println("Lỗi sảy ra khi thao tác với file");
             System.out.println(e.getMessage());
         }
 
-        //Đọc file
-//        FileReader fileReader = new FileReader(File);
-//        BufferedReader  bufferedReader = new BufferedReader(fileReader);
+
 
 
     }

@@ -14,13 +14,13 @@ public class DemoThrowAndThrows {
         }
 
         System.out.println("Code continue ...");
-//
-//        try {
-//            demo();
-//        } catch (IOException e) {
-//            System.out.println(e.getMessage());
-//        }
-//
+
+        try {
+            demo();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
    }
 
     public static void valiDateAge(int age) {
@@ -30,7 +30,7 @@ public class DemoThrowAndThrows {
         System.out.println("Đủ tuổi đi nghĩa vụ quân sự");
     }
 
-//    public static void demo() {
-////        throw new IOException("Không tìm thấy file ...");
-//    }
+    public static void demo() throws IOException {
+        throw new IOException("Không tìm thấy file ...");
+    }
 }
