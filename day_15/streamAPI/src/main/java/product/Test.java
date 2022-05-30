@@ -31,5 +31,27 @@ public class Test {
         //Tìm sản phẩm theo giá
         productService.getProductByPrice(products, 20_000_000).forEach(Product::printInfo);
         System.out.println();
+
+        //Tìm sản phẩm tên có chữ Pro
+        productService.findByStringPro(products).forEach(Product::printInfo);
+        System.out.println();
+
+        //Thêm sản phẩm
+        productService.addProduct(products);
+        products.forEach(Product::printInfo);
+        System.out.println();
+
+        //Xoá sản phẩm brand Samsung
+        productService.deleteByBrand(products, "Samsung");
+        products.forEach(Product::printInfo);
+        System.out.println();
+
+        //Sắp xếp theo gia tăng dần
+        productService.sortByPriceAscend(products);
+        System.out.println();
+
+        //Sắp xếp theo tồn kho giảm dần
+        productService.sortByCount(products);
+        System.out.println();
     }
 }
