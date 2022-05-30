@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f68e659-3a68-40b4-b329-a9d6933a49eb" name="Changes" comment="" />
+    <list default="true" id="0f68e659-3a68-40b4-b329-a9d6933a49eb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../day_15/streamAPI/src/main/java/product/product.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/src/main/java/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/src/main/java/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/src/main/java/exception/MyException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/src/main/java/model/TransactionHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/src/main/java/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../final_test/vpbank/src/main/java/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,7 +48,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "E:/JavaCore/day_15/streamAPI",
+    "last_opened_file_path": "/home/lcn/Desktop/JavaCore/day_12/mini_test2",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>

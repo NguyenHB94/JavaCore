@@ -1,0 +1,100 @@
+package service;
+
+import exception.MyException;
+import model.TransactionHistory;
+import model.User;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class UserService {
+    Scanner sc = new Scanner(System.in);
+    Random rd = new Random();
+    private List<User> users = new ArrayList<>();
+    private List<TransactionHistory> transactionHistories = new ArrayList<>();
+
+    public UserService() {
+        init();
+    }
+
+    public void init() {
+        users.add(new User(1, "0988123456", "account1", "281411111", 20_000_000));
+        users.add(new User(2, "0986123321", "account2", "281422222", 10_000_000));
+        users.add(new User(3, "0901666888", "account3", "281433333", 5_000_000));
+        users.add(new User(4, "0975555888", "account4", "281444444", 1_000_000));
+        users.add(new User(5, "0914999999", "account5", "281455555", 15_000_000));
+        users.add(new User(6, "0915555555", "account6", "281466666", 50_000_000));
+        users.add(new User(7, "0869999999", "account7", "281477777", 100_000_000));
+        users.add(new User(8, "0706050403", "account8", "281488888", 500_000));
+        users.add(new User(9, "0335333333", "account9", "281499999", 200_000));
+        users.add(new User(10, "0988888888", "account10", "281400000", 200_000_000));
+    }
+
+    //Login
+    public User Login() {
+        System.out.println("Nhập vào số điện thoại đăng nhập: ");
+        String phoneNumber = sc.nextLine();
+        System.out.println("Nhập mật khẩu: ");
+        String password = sc.nextLine();
+
+        User userLogin = new User();
+        int haveUser = 0;
+        for (User user : users) {
+            if (userLogin.getPhone().equals(phoneNumber) && userLogin.getPassword().equals(password)) {
+                userLogin = user;
+                haveUser++;
+            }
+        }
+        if (haveUser == 0) {
+            throw new MyException("Email hoặc mật khẩu không đúng");
+        }
+        System.out.println("Đăng nhập thành công");
+        return userLogin;
+    }
+
+    public void showBalance(User user) {
+        System.out.println("Số dư trong tài khoản của bạn là: " + user.getBalance());
+    }
+
+    public void transferMoney(User user) {
+        System.out.println("Nhập số tài khoản người nhận: ");
+        String receiveAccount = sc.nextLine();
+
+        User receiveUser = (User) users.stream()
+                .filter(a -> a.getAccount().equals(receiveAccount));
+        if (receiveUser.equals("")) {
+            throw new MyException("Số tài khoản không đúng");
+        }
+
+        System.out.println("Nhập số tiền muốn chuyển: ");
+        int sentMoney = Integer.parseInt(sc.nextLine());
+
+        if (sentMoney <= 50_000 || (user.getBalance() - sentMoney) < 50_000 ) {
+            throw new MyException("Số dư tài khoản không đủ đê thực hiện giao dịch");
+        }
+
+        System.out.println("Nhập tin nhắn: ");
+        String content = sc.nextLine();
+
+        LocalDateTime dateTime = LocalDateTime.now();
+        int id = transactionHistories.toArray().length;
+        int moneyOfSentAccout = user.getBalance() - sentMoney;
+        int moneyOfReceiveAccount = receiveUser.getBalance() + sentMoney;
+
+        user.setBalance(moneyOfSentAccout);
+        receiveUser.setBalance(moneyOfReceiveAccount);
+
+        transactionHistories.add(new TransactionHistory(id, user.getAccount(),content, dateTime, receiveAccount, sentMoney));
+    }
+
+    public void showTransactionHistories(User user) {
+        List<User> accountHistories = new ArrayList<>();
+        accountHistories = (List<User>) transactionHistories.stream()
+                .filter(s -> s.getSentAccount().equals(user.getAccount()));
+    }
+
+}
