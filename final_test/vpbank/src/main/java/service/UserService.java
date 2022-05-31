@@ -41,19 +41,19 @@ public class UserService {
         System.out.println("Nhập mật khẩu: ");
         String password = sc.nextLine();
 
-        User userLogin = new User();
-        int haveUser = 0;
-        for (User user : users) {
-            if (userLogin.getPhone().equals(phoneNumber) && userLogin.getPassword().equals(password)) {
-                userLogin = user;
-                haveUser++;
-            }
+        User user = new User();
+        user = users.stream()
+                .filter(u -> u.getPhone().equals(phoneNumber) && u.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
+
+        if (user == null) {
+            throw new MyException("Số điện thoại hoặc mật khẩu không đúng");
         }
-        if (haveUser == 0) {
-            throw new MyException("Email hoặc mật khẩu không đúng");
-        }
+
         System.out.println("Đăng nhập thành công");
-        return userLogin;
+        return user;
+
     }
 
     public void showBalance(User user) {
@@ -64,17 +64,23 @@ public class UserService {
         System.out.println("Nhập số tài khoản người nhận: ");
         String receiveAccount = sc.nextLine();
 
-        User receiveUser = (User) users.stream()
-                .filter(a -> a.getAccount().equals(receiveAccount));
-        if (receiveUser.equals("")) {
+        User receiveUser = users.stream()
+                .filter(a -> a.getAccount().equals(receiveAccount))
+                .findFirst()
+                .orElse(null);
+        //Check số tài khoản
+        if (receiveUser == null) {
             throw new MyException("Số tài khoản không đúng");
         }
 
         System.out.println("Nhập số tiền muốn chuyển: ");
         int sentMoney = Integer.parseInt(sc.nextLine());
-
-        if (sentMoney <= 50_000 || (user.getBalance() - sentMoney) < 50_000 ) {
-            throw new MyException("Số dư tài khoản không đủ đê thực hiện giao dịch");
+        //Check số tiền chuyển
+        if (sentMoney < 50_000) {
+            throw new MyException("Số tiền cần chuyển tối thiểu là 50_000");
+        }
+        if ((user.getBalance() - sentMoney) < 50_000) {
+            throw new MyException("Số dư tài khoản không đủ để thực hiện giao dịch");
         }
 
         System.out.println("Nhập tin nhắn: ");
@@ -88,13 +94,23 @@ public class UserService {
         user.setBalance(moneyOfSentAccout);
         receiveUser.setBalance(moneyOfReceiveAccount);
 
-        transactionHistories.add(new TransactionHistory(id, user.getAccount(),content, dateTime, receiveAccount, sentMoney));
+        System.out.println("Bạn đã chuyển thành công số tiền " + sentMoney + " đến số tài khoản " + receiveAccount);
+        transactionHistories.add(new TransactionHistory(id, user.getAccount(), content, dateTime, receiveAccount, sentMoney));
     }
 
     public void showTransactionHistories(User user) {
-        List<User> accountHistories = new ArrayList<>();
-        accountHistories = (List<User>) transactionHistories.stream()
-                .filter(s -> s.getSentAccount().equals(user.getAccount()));
+        if (transactionHistories.isEmpty()) {
+            throw new MyException("Bạn chưa thực hiện giao dịch nào");
+        }
+        List<TransactionHistory> history = transactionHistories.stream()
+                .filter(s -> s.getSentAccount().equals(user.getAccount()))
+                .collect(Collectors.toList());
+        if (history.isEmpty()) {
+            throw new MyException("Bạn chưa thực hiện giao dịch nào");
+        }
+
+        history.forEach(s -> s.printHistory());
+
     }
 
 }

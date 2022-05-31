@@ -17,4 +17,8 @@ public class TransactionHistory {
     private LocalDateTime date;
     private String receiveAccount;
     private int money;
+
+    public void printHistory() {
+        System.out.println("Id = " + id + " || Content : " + content + " || Time : " + date + " || Receive Account : " + receiveAccount + " || Money : " + money);
+    }
 }
